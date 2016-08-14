@@ -1,0 +1,46 @@
+{
+  "name": "dooker",
+  "version": "0.1.0",
+  "description": "Intermediary service to pass requests between cyber node app and C+EE via SOAP",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev:docker": "NODE_ENV=development nodemon -L app/index.js",
+    "test": "NODE_ENV=test mocha ./test/setup.js **/__test__/**/*.spec.js",
+    "lint": "standard"
+  },
+  "author": "James McNamee <james@dotfold.io>",
+  "contributors": [
+    "James McNamee <james@dotfold.io"
+  ],
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "boom": "^3.2.2",
+    "hapi": "^13.5.0",
+    "lodash": "^4.14.0",
+    "yargs": "^4.8.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^2.5.3",
+    "proxyquire": "^1.7.10",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "standard": "^7.1.2"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    }
+  }
+}

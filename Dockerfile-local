@@ -1,0 +1,39 @@
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+# Dockerfile used for local development
+#
+# This does not copy files over to the container
+# so that nodemon can watch the local filesystem
+# and restart the process inside the container.
+#
+# DO NOT USE THIS IN ANY DEPLOYMENT ENVIRONMENTS
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+FROM mhart/alpine-node:6
+MAINTAINER "James McNamee <james@dotfold.io>"
+
+# Set timezone & region
+RUN locale-gen en_AU en_AU.UTF-8
+RUN echo "Australia/Melbourne" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata locales
+
+RUN mkdir /src
+
+# use changes to package.json to force Docker not to use the cache
+# when we change our application's nodejs dependencies:
+ADD /app/package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /app && cp -a /tmp/node_modules /app/
+
+RUN npm install -g nodemon
+
+# From here we load our application's code in, therefore the previous docker
+# "layer" thats been cached will be used if possible
+WORKDIR /src
+ADD app/package.json /src/package.json
+RUN npm install
+
+ADD app/nodemon.json /src/nodemon.json
+EXPOSE 8800
+CMD npm run dev:docker
