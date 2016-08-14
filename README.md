@@ -22,17 +22,20 @@ Build the image:
 -o build phase (this one does not push the image)  
 
 $ ./build.sh -p dooker -r dotfold -o package
+```
 
 Then just run the container. Make sure you specify port 8800 in the run command, and open that port up to localhost on virtualmachine.
 
 ```
-# TODO: verify this command actually works
+# TODO: verify this command actually works*
 $ docker run dotfold/dooker -p 8800:8800 -f Dockerfile-local -v app:/src/app
 ```
 
 Alternatively, can be specified in a compose file:
 
 ```
+version '2
+services:
     image: dotfold/dooker:latest
     build:
       # path to the app code
